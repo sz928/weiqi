@@ -36,6 +36,10 @@ class GameController {
             alert('你还想摞着放？')
             return
         }
+        
+        
+
+
         let piece: Piece = PiecePool.instance.getOnePiece();
         piece.updateData(this.isBlack, point);
         this.bg.addChild(piece);
