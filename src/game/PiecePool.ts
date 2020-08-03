@@ -1,12 +1,12 @@
-class PieceManager {
+class PiecePool {
 
-    private instance: PieceManager;
+    private static _instance: PiecePool;
 
-    getInstance(): PieceManager {
-        if (!this.instance) {
-            this.instance = new PieceManager;
+    static get instance(): PiecePool {
+        if (!this._instance) {
+            this._instance = new PiecePool;
         }
-        return this.instance;
+        return this._instance;
     }
 
     private piecePood: Piece[];
@@ -27,6 +27,4 @@ class PieceManager {
         }
         return piece;
     }
-
-    
 }
