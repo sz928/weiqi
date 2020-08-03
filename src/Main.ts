@@ -78,7 +78,13 @@ class Main extends eui.UILayer {
         bg.graphics.drawRect(0, 0, stageW, stageH);
         bg.graphics.endFill();
         this.addChild(bg);
-        this.addChild(new Background());
+        let bgG = new Background();
+        this.addChild(bgG);
+        bgG.verticalCenter = 0;
+        bgG.horizontalCenter = 0;
+
+        GameController.instance.init(bgG);
+
         // let sky = this.createBitmapByName("bg_jpg");
         // this.addChild(sky);
         // let stageW = this.stage.stageWidth;
