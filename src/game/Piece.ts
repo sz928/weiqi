@@ -23,7 +23,7 @@ class Piece extends egret.Sprite {
         this.isBlack = isBaack;
         this.point = point;
 
-        let speed = GameController.instance.speed;
+        let speed = config.speed;
         this.x = speed * point.x;
         this.y = speed * point.y;
 

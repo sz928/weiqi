@@ -1,7 +1,5 @@
 class Chessboard extends eui.Component {
 
-    private speedLeft = 30;
-    private speed: number;
     private tips: egret.TextField;
 
     constructor() {
@@ -19,20 +17,20 @@ class Chessboard extends eui.Component {
     private init() {
         const stageW = this.stage.stageWidth;
         let group = new eui.Group();
-        this.width = this.height = stageW - this.speedLeft;
+        this.width = this.height = stageW - config.speedLeft;
         group.width = this.width;
         group.height = this.height;
-        this.speed = GameController.instance.speed = this.width / 18;
-        for (let i = 0; i < 19; i++) {
-            this.drawLine(i, this.speed, group);
+        config.speed = this.width / (config.lineNum - 1);
+        for (let i = 0; i < config.lineNum; i++) {
+            this.drawLine(i, config.speed, group);
         }
 
-        let arr: { x: number, y: number }[] = [{ x: 3, y: 3 }, { x: 15, y: 3 }, { x: 3, y: 15 }, { x: 15, y: 15 }];
+        let arr: { x: number, y: number }[] = [{ x: 3, y: 3 }, { x: config.lineNum - 3, y: 3 }, { x: 3, y: config.lineNum - 3 }, { x: config.lineNum - 3, y: config.lineNum - 3 }];
         for (const i in arr) {
             let point = arr[i];
             let dian1 = new egret.Shape();
             dian1.graphics.beginFill(0x000000);
-            dian1.graphics.drawCircle(point.x * this.speed, point.y * this.speed, 8);
+            dian1.graphics.drawCircle(point.x * config.speed, point.y * config.speed, 8);
             dian1.graphics.endFill();
             group.addChild(dian1);
         }
@@ -61,8 +59,8 @@ class Chessboard extends eui.Component {
     }
 
     private onTap(e: egret.TouchEvent): void {
-        let tapX = Math.ceil(e.stageX / this.speed) - 1;
-        let tapY = Math.ceil(e.stageY / this.speed) - 8;
+        let tapX = Math.ceil(e.stageX / config.speed) - 1;
+        let tapY = Math.ceil(e.stageY / config.speed) - 7;
         GameController.instance.selectIndex(new egret.Point(tapX, tapY));
     }
 
@@ -70,4 +68,13 @@ class Chessboard extends eui.Component {
         this.tips.text = '请' + str + '落子！';
     }
 
+}
+
+let config = {
+    /**左右间距 */
+    speedLeft: 60,
+    /**点与点的间距 （计算出来的）不用负值*/
+    speed: 0,
+    /**线条数 （n*n）*/
+    lineNum: 15
 }

@@ -71,11 +71,17 @@ class Main extends eui.UILayer {
         bg.graphics.drawRect(0, 0, stageW, stageH);
         bg.graphics.endFill();
         this.addChild(bg);
-        let bgG = new Chessboard();
-        this.addChild(bgG);
-        bgG.verticalCenter = 0;
-        bgG.horizontalCenter = 0;
 
-        GameController.instance.init(bgG);
+        let chessboard = new Chessboard();
+        this.addChild(chessboard);
+        chessboard.verticalCenter = 0;
+        chessboard.horizontalCenter = 0;
+
+        let result = new Result();
+        this.addChild(result);
+        result.verticalCenter = 0;
+        result.horizontalCenter = 0;
+
+        GameController.instance.init(chessboard,result);
     }
 }

@@ -19,6 +19,7 @@
 		"bin-debug/game/Chessboard.js",
 		"bin-debug/game/GameController.js",
 		"bin-debug/game/Piece.js",
-		"bin-debug/game/PiecePool.js"
+		"bin-debug/game/PiecePool.js",
+		"bin-debug/game/Result.js"
 	]
 }
