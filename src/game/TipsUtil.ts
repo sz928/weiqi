@@ -12,3 +12,4 @@ class TipsUtil {
             target.removeChild(text);
         }, this)
     }
+}
