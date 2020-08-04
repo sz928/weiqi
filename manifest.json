@@ -11,15 +11,16 @@
 		"libs/egretmgobe/egretmgobe.js"
 	],
 	"game": [
+		"bin-debug/game/Chessboard.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
 		"bin-debug/ThemeAdapter.js",
-		"bin-debug/game/Chessboard.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/game/GameController.js",
 		"bin-debug/game/Piece.js",
 		"bin-debug/game/PiecePool.js",
-		"bin-debug/game/Result.js"
+		"bin-debug/game/Result.js",
+		"bin-debug/game/TipsUtil.js"
 	]
 }

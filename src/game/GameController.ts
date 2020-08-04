@@ -39,7 +39,8 @@ class GameController {
             return
         }
         if (this.isHas(point)) {
-            alert('你还想摞着放？')
+            // alert('你还想摞着放？')
+            TipsUtil.show('你还想摞着放？', this.chessboard);
             return
         }
 
@@ -51,17 +52,35 @@ class GameController {
         this.num = 0;
         this.onLeft(point);
         this.onRight(point);
-        this.onUp(point);
-        this.onDown(point);
-        this.onLeftUp(point);
-        this.onLeftDown(point);
-        this.onRightUp(point);
-        this.onRightDown(point);
-
         if (this.num >= 4) {
             this.result.onShow(this.isBlack);
             return
         }
+
+        this.num = 0;
+        this.onUp(point);
+        this.onDown(point);
+        if (this.num >= 4) {
+            this.result.onShow(this.isBlack);
+            return
+        }
+
+        this.num = 0;
+        this.onLeftUp(point);
+        this.onRightDown(point);
+        if (this.num >= 4) {
+            this.result.onShow(this.isBlack);
+            return
+        }
+
+        this.num = 0;
+        this.onLeftDown(point);
+        this.onRightUp(point);
+        if (this.num >= 4) {
+            this.result.onShow(this.isBlack);
+            return
+        }
+
         this.isBlack = !this.isBlack;
         this.chessboard.updateTips(this.isBlack ? '执黑棋方' : '执白棋方');
     }
