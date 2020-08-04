@@ -24,6 +24,7 @@ class GameController {
 
     init(bg: Chessboard): void {
         this.bg = bg;
+        this.bg.updateTips(this.isBlack ? '执黑棋方' : '执白棋方');
     }
 
     public selectIndex(point: egret.Point): void {
@@ -41,6 +42,7 @@ class GameController {
         this.bg.addChild(piece);
         this.pieceArr.push(piece);
         this.isBlack = !this.isBlack;
+        this.bg.updateTips(this.isBlack ? '执黑棋方' : '执白棋方');
     }
 
     private isHas(point: egret.Point): boolean {
