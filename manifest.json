@@ -24,8 +24,8 @@
 		"bin-debug/game/PiecePool.js",
 		"bin-debug/game/PlayerInfo.js",
 		"bin-debug/game/Result.js",
-		"bin-debug/game/TipsUtil.js",
 		"bin-debug/game/UIManager.js",
+		"bin-debug/game/Util.js",
 		"bin-debug/socket/data.js",
 		"bin-debug/socket/Socket.js"
 	]

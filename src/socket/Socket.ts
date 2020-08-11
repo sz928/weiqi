@@ -23,6 +23,7 @@ class Socket {
         this.ws = new egret.WebSocket();
         this.ws.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.onReceiveMessage, this);
         this.ws.addEventListener(egret.Event.CONNECT, this.onSocketOpen, this);
+        this.ws.addEventListener(egret.IOErrorEvent.IO_ERROR, () => { TipsUtil.show('请先连接网络！') }, null)
         this.ws.connect("localhost", 8080);
         this.funcHandler = new Map();
     }
@@ -39,6 +40,11 @@ class Socket {
 
         let data = JSON.stringify(_data);
         this.ws.writeUTF(msg + '+' + data);
+    }
+
+    on(_msgId: MsgId, _func: Function, _thisObj: object) {
+        let msg = MsgId[_msgId];
+        this.funcHandler.set(msg, { func: _func, obj: _thisObj });
     }
 
     private recMsg(_data: string): void {

@@ -39,7 +39,7 @@ class Menu extends eui.Component {
 
     private onRes(data: loginRes): void {
         if (data.code == 1) {
-            alert('当前房间人数已满！')
+            TipsUtil.show('当前房间人数已满！')
             return;
         }
         PlayerInfo.instance.meColreBlack = data.meColreBlack;

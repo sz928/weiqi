@@ -12,7 +12,5 @@ class PlayerInfo {
     }
     // 当前玩家执棋颜色
     public meColreBlack: boolean;
-    public playerCount: number;
-    public uuid: number;
 
 }
