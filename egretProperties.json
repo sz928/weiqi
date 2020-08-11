@@ -5,8 +5,7 @@
   "target": {
     "current": "web"
   },
-  "modules": [
-    {
+  "modules": [{
       "name": "egret"
     },
     {
@@ -25,6 +24,9 @@
       "name": "promise"
     },
     {
+      "name": "Socket"
+    },
+    {
       "name": "WXCloudApi",
       "path": "./libs/WXCloudApi"
     },
@@ -32,5 +34,10 @@
       "name": "egretmgobe",
       "path": "./libs/egretmgobe"
     }
-  ]
+  ],
+  "eui": {
+    "exmlRoot": [
+      "resource/eui_skins"
+    ]
+  }
 }

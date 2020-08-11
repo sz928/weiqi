@@ -8,8 +8,6 @@ class GameController {
 
     /**到我下了 */
     private isMe = true;
-    /**我是黑子 */
-    private isBlack = true;
 
     private pieceArr: Piece[];
 
@@ -25,11 +23,30 @@ class GameController {
         this.pieceArr = [];
     }
 
-    init(bg: Chessboard, result: Result): void {
-        this.chessboard = bg;
-        this.result = result;
+    init(pieceArr: piece[]): eui.Component {
+        if (!this.chessboard) {
+            this.chessboard = new Chessboard();
+            this.result = new Result();
+        }
         this.result.visible = false;
-        this.chessboard.updateTips(this.isBlack ? '执黑棋方' : '执白棋方');
+        this.chessboard.updateTips(PlayerInfo.instance.meColreBlack ? '执黑棋方落子！' : '执白棋方落子！');
+
+        if (PlayerInfo.instance.playerCount < 2) {
+            this.chessboard.touchChildren = false;
+            this.chessboard.updateTips('等待其他玩家！！！')
+        } else {
+            this.chessboard.touchChildren = true;
+        }
+
+        this.pieceArr.splice(0);
+        for (const iterator of pieceArr) {
+            let piece: Piece = PiecePool.instance.getOnePiece();
+            piece.updateData(PlayerInfo.instance.meColreBlack, new egret.Point(iterator.x, iterator.y));
+            this.chessboard.addChild(piece);
+            this.pieceArr.push(piece);
+        }
+
+        return this.chessboard;
     }
 
     public selectIndex(point: egret.Point): void {
@@ -45,7 +62,7 @@ class GameController {
         }
 
         let piece: Piece = PiecePool.instance.getOnePiece();
-        piece.updateData(this.isBlack, point);
+        piece.updateData(PlayerInfo.instance.meColreBlack, point);
         this.chessboard.addChild(piece);
         this.pieceArr.push(piece);
 
@@ -53,7 +70,7 @@ class GameController {
         this.onLeft(point);
         this.onRight(point);
         if (this.num >= 4) {
-            this.result.onShow(this.isBlack);
+            this.result.onShow(PlayerInfo.instance.meColreBlack);
             return
         }
 
@@ -61,7 +78,7 @@ class GameController {
         this.onUp(point);
         this.onDown(point);
         if (this.num >= 4) {
-            this.result.onShow(this.isBlack);
+            this.result.onShow(PlayerInfo.instance.meColreBlack);
             return
         }
 
@@ -69,7 +86,7 @@ class GameController {
         this.onLeftUp(point);
         this.onRightDown(point);
         if (this.num >= 4) {
-            this.result.onShow(this.isBlack);
+            this.result.onShow(PlayerInfo.instance.meColreBlack);
             return
         }
 
@@ -77,17 +94,15 @@ class GameController {
         this.onLeftDown(point);
         this.onRightUp(point);
         if (this.num >= 4) {
-            this.result.onShow(this.isBlack);
+            this.result.onShow(PlayerInfo.instance.meColreBlack);
             return
         }
-
-        this.isBlack = !this.isBlack;
-        this.chessboard.updateTips(this.isBlack ? '执黑棋方' : '执白棋方');
+        this.chessboard.updateTips(PlayerInfo.instance.meColreBlack ? '执黑棋方' : '执白棋方');
     }
 
     private onLeft(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x - index && iterator.point.y == point.y) {
                 this.num++;
                 index++;
@@ -98,7 +113,7 @@ class GameController {
     }
     private onRight(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x + index && iterator.point.y == point.y) {
                 this.num++;
                 index++;
@@ -109,7 +124,7 @@ class GameController {
     }
     private onUp(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x && iterator.point.y == point.y - index) {
                 this.num++;
                 index++;
@@ -120,7 +135,7 @@ class GameController {
     }
     private onDown(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x && iterator.point.y == point.y + index) {
                 this.num++;
                 index++;
@@ -131,7 +146,7 @@ class GameController {
     }
     private onLeftUp(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x - index && iterator.point.y == point.y - index) {
                 this.num++;
                 index++;
@@ -142,7 +157,7 @@ class GameController {
     }
     private onLeftDown(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x - index && iterator.point.y == point.y + index) {
                 this.num++;
                 index++;
@@ -153,7 +168,7 @@ class GameController {
     }
     private onRightUp(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x + index && iterator.point.y == point.y - index) {
                 this.num++;
                 index++;
@@ -164,7 +179,7 @@ class GameController {
     }
     private onRightDown(point: egret.Point, index: number = 1): void {
         for (const iterator of this.pieceArr) {
-            if (iterator.isBlack != this.isBlack) continue;
+            if (iterator.isBlack != PlayerInfo.instance.meColreBlack) continue;
             if (iterator.point.x == point.x + index && iterator.point.y == point.y + index) {
                 this.num++;
                 index++;
@@ -185,7 +200,6 @@ class GameController {
     }
 
     reset(): void {
-        this.isBlack = true;
         for (let i = 0; i < this.chessboard.numChildren; i++) {
             const element = this.chessboard.getChildAt(i);
             if (element instanceof Piece) {
@@ -194,6 +208,6 @@ class GameController {
             }
         }
         this.pieceArr.splice(0);
-        this.chessboard.updateTips(this.isBlack ? '执黑棋方' : '执白棋方');
+        this.chessboard.updateTips(PlayerInfo.instance.meColreBlack ? '执黑棋方' : '执白棋方');
     }
 }

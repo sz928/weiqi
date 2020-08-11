@@ -72,16 +72,11 @@ class Main extends eui.UILayer {
         bg.graphics.endFill();
         this.addChild(bg);
 
-        let chessboard = new Chessboard();
-        this.addChild(chessboard);
-        chessboard.verticalCenter = 0;
-        chessboard.horizontalCenter = 0;
-
-        let result = new Result();
-        this.addChild(result);
-        result.verticalCenter = 0;
-        result.horizontalCenter = 0;
-
-        GameController.instance.init(chessboard,result);
+        
+        this.addChild(UIManager.instance);
+        let menu = new Menu();
+        UIManager.instance.show(menu)
+        
+        Socket.instance.init();
     }
 }

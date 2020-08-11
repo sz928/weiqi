@@ -1,11 +1,15 @@
 class Chessboard extends eui.Component {
 
     private tips: egret.TextField;
+    private color: egret.TextField;
 
     constructor() {
         super();
         this.tips = new egret.TextField();
+        this.color = new egret.TextField();
         this.addChild(this.tips);
+        this.addChild(this.color);
+        this.color.touchEnabled = true;
         this.tips.touchEnabled = true;
     }
 
@@ -39,6 +43,9 @@ class Chessboard extends eui.Component {
 
         this.tips.textAlign = egret.HorizontalAlign.CENTER;
         this.tips.y = -200;
+        this.color.textAlign = egret.HorizontalAlign.RIGHT;
+        this.color.y = -300;
+        this.updateColor();
         group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
     }
 
@@ -65,7 +72,11 @@ class Chessboard extends eui.Component {
     }
 
     updateTips(str: string): void {
-        this.tips.text = '请' + str + '落子！';
+        this.tips.text = '请' + str;
+    }
+
+    private updateColor(): void {
+        this.color.text = "当前您执" + PlayerInfo.instance.meColreBlack ? "黑棋!" : "白棋！"
     }
 
 }
