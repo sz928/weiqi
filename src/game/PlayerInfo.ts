@@ -12,5 +12,7 @@ class PlayerInfo {
     }
     // 当前玩家执棋颜色
     public meColreBlack: boolean;
+    //现在的下棋颜色
+    public nowColreBlack: boolean;
 
 }

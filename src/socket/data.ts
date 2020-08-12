@@ -38,11 +38,16 @@ interface resultPush {
     isBlackWin: boolean;
 }
 
+/**新局 */
+interface newGameReq {
+
+}
+
 enum MsgId {
     loginReq,
-    loginRes,
     roomSync,
     playChessReq,
     playChessRes,
-    resultPush
+    resultPush,
+    newGameRes
 }
