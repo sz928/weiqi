@@ -15,4 +15,6 @@ class PlayerInfo {
     //现在的下棋颜色
     public nowColreBlack: boolean;
 
+    roomId: number;
+
 }

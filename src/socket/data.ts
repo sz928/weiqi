@@ -5,7 +5,7 @@ interface loginReq {
 }
 /**登录响应 */
 interface loginRes {
-    /**加入成功为0,失败为1 */
+    /**加入成功为0,失败为-1 */
     code: number
     /**当前玩家执棋颜色 */
     meColreBlack: boolean;
@@ -26,10 +26,12 @@ interface roomSync {
 
 /**下棋请求 */
 interface playChessReq {
+    roomid: number,
     piece: piece;
 }
 // 下棋响应
 interface playChessRes {
+    code: number,
     piece: piece;
 }
 
@@ -40,14 +42,13 @@ interface resultPush {
 
 /**新局 */
 interface newGameReq {
-
+    roomid: number
 }
 
 enum MsgId {
-    loginReq,
+    login,
     roomSync,
-    playChessReq,
-    playChessRes,
+    playChess,
     resultPush,
-    newGameRes
+    newGameReq
 }

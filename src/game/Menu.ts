@@ -25,6 +25,7 @@ class Menu extends eui.Component {
         this.lab.textDisplay.textAlign = egret.HorizontalAlign.CENTER;
 
         this.start.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
+        
     }
 
     private onTap(): void {
@@ -34,14 +35,15 @@ class Menu extends eui.Component {
         let data: loginReq = {
             roomid: parseInt(this.lab.text)
         }
-        Socket.instance.sendMsg(data, MsgId.loginReq, this.onRes, this);
+        Socket.instance.sendMsg(data, MsgId.login, this.onRes, this);
     }
 
     private onRes(data: loginRes): void {
-        if (data.code == 1) {
+        if (data.code != 0) {
             TipsUtil.show('当前房间人数已满！')
             return;
         }
+        PlayerInfo.instance.roomId = parseInt(this.lab.text);
         PlayerInfo.instance.meColreBlack = data.meColreBlack;
         UIManager.instance.show(GameController.instance.init(data.pieceArr));
     }

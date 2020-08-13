@@ -9,6 +9,7 @@ class Socket {
 
     private ws: egret.WebSocket;
     private funcHandler: Map<string, { func: Function, obj: Object }>;
+    private isConnect: boolean = false;
 
     constructor() {
     }
@@ -24,16 +25,21 @@ class Socket {
         this.ws.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.onReceiveMessage, this);
         this.ws.addEventListener(egret.Event.CONNECT, this.onSocketOpen, this);
         this.ws.addEventListener(egret.IOErrorEvent.IO_ERROR, () => { TipsUtil.show('请先连接网络！') }, null)
-        this.ws.connect("localhost", 8080);
+        this.connect();
         this.funcHandler = new Map();
+    }
+
+    private connect(): void {
+        if (!this.isConnect) this.ws.connect("localhost", 8080);
     }
 
     private onSocketOpen(): void {
         console.log('连接成功');
-
+        this.isConnect = true;
     }
 
     sendMsg(_data: any, _msgId: MsgId, _func: Function, _thisObj: Object) {
+        this.connect();
         let msg = MsgId[_msgId];
 
         this.funcHandler.set(msg, { func: _func, obj: _thisObj })

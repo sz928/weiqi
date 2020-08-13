@@ -76,7 +76,7 @@ class Chessboard extends eui.Component {
     }
 
     private updateColor(): void {
-        this.color.text = "当前您执" + PlayerInfo.instance.meColreBlack ? "黑棋!" : "白棋！"
+        this.color.text = "当前您执" + (PlayerInfo.instance.meColreBlack ? "黑棋!" : "白棋！")
     }
 
 }

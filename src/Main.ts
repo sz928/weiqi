@@ -78,5 +78,6 @@ class Main extends eui.UILayer {
         UIManager.instance.show(menu)
         
         Socket.instance.init();
+        GameController.instance.initHook();
     }
 }

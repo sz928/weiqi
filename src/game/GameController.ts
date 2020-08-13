@@ -21,6 +21,12 @@ class GameController {
         this.pieceArr = [];
     }
 
+    initHook(): void {
+        Socket.instance.on(MsgId.roomSync, this.roomSync, this);
+        Socket.instance.on(MsgId.resultPush, this.onResultPush, this);
+        Socket.instance.on(MsgId.playChess, this.onPlayChessRes, this);
+    }
+
     init(pieceArr: piece[]): eui.Component {
         if (!this.chessboard) {
             this.chessboard = new Chessboard();
@@ -37,10 +43,6 @@ class GameController {
             this.pieceArr.push(piece);
         }
 
-        Socket.instance.on(MsgId.roomSync, this.roomSync, this);
-        Socket.instance.on(MsgId.resultPush, this.onResultPush, this);
-        Socket.instance.on(MsgId.playChessRes, this.onPlayChessRes, this);
-
         return this.chessboard;
     }
 
@@ -56,7 +58,9 @@ class GameController {
         } else {
             this.chessboard.touchChildren = true;
             PlayerInfo.instance.nowColreBlack = data.nowColreBlack;
-            this.chessboard.updateTips(PlayerInfo.instance.nowColreBlack ? '执黑棋方落子！' : '执白棋方落子！');
+            let str = data.nowColreBlack ? '执黑棋方落子！' : '执白棋方落子！';
+            this.chessboard.updateTips(str);
+            this.isMe = data.nowColreBlack == PlayerInfo.instance.meColreBlack;
         }
     }
 
@@ -73,13 +77,14 @@ class GameController {
         }
 
         let req: playChessReq = {
+            roomid: PlayerInfo.instance.roomId,
             piece: {
                 x: point.x,
                 y: point.y,
                 isBlack: PlayerInfo.instance.meColreBlack
             }
         }
-        Socket.instance.sendMsg(req, MsgId.playChessReq, this.onPlayChessRes, this);
+        Socket.instance.sendMsg(req, MsgId.playChess, this.onPlayChessRes, this);
     }
 
     private onPlayChessRes(data: playChessRes) {
@@ -89,11 +94,11 @@ class GameController {
         this.chessboard.addChild(piece);
         this.pieceArr.push(piece);
 
-        let nowColorIsBlack = !data.piece.isBlack;
-        PlayerInfo.instance.nowColreBlack = nowColorIsBlack;
+        // let nowColorIsBlack = !data.piece.isBlack;
+        // PlayerInfo.instance.nowColreBlack = nowColorIsBlack;
         // let selfWin: boolean = ResultUtil.result(point, this.pieceArr);
         // this.result.onShow(selfWin);
-        this.chessboard.updateTips(nowColorIsBlack ? '执黑棋方落子！' : '执白棋方落子！');
+        // this.chessboard.updateTips(nowColorIsBlack ? '执黑棋方落子！' : '执白棋方落子！');
     }
     private isHas(point: egret.Point): boolean {
         for (const iterator of this.pieceArr) {
@@ -113,6 +118,6 @@ class GameController {
             }
         }
         this.pieceArr.splice(0);
-        Socket.instance.sendMsg('', MsgId.newGameRes, () => { }, this);
+        Socket.instance.sendMsg('', MsgId.newGameReq, () => { }, this);
     }
 }
