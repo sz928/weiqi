@@ -27,7 +27,7 @@ class GameController {
         Socket.instance.on(MsgId.playChess, this.onPlayChessRes, this);
     }
 
-    init(pieceArr: piece[]): eui.Component {
+    init(pieceArr: piece[]): { chess: eui.Component, result: eui.Component } {
         if (!this.chessboard) {
             this.chessboard = new Chessboard();
             this.result = new Result();
@@ -43,7 +43,7 @@ class GameController {
             this.pieceArr.push(piece);
         }
 
-        return this.chessboard;
+        return { chess: this.chessboard, result: this.result };
     }
 
     private onResultPush(data: resultPush): void {
@@ -111,6 +111,13 @@ class GameController {
     }
     //重新开局
     reset(): void {
+        let req: newGameReq = {
+            roomid: PlayerInfo.instance.roomId
+        }
+        Socket.instance.sendMsg(req, MsgId.newGameReq, this.resetRes, this);
+    }
+
+    private resetRes(): void {
         for (let i = 0; i < this.chessboard.numChildren; i++) {
             const element = this.chessboard.getChildAt(i);
             if (element instanceof Piece) {
@@ -119,6 +126,5 @@ class GameController {
             }
         }
         this.pieceArr.splice(0);
-        Socket.instance.sendMsg('', MsgId.newGameReq, () => { }, this);
     }
 }

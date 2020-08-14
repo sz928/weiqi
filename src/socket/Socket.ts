@@ -30,7 +30,7 @@ class Socket {
     }
 
     private connect(): void {
-        let url = '121.199.51.226';//localhost
+        let url = 'localhost'//'121.199.51.226';
         if (!this.isConnect) this.ws.connect(url, 8080);
     }
 

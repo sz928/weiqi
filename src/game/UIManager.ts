@@ -18,8 +18,10 @@ class UIManager extends eui.Component {
         this.height = this.stage.stageHeight;
     }
 
-    show(panel: eui.Component) {
-        this.removeChildren();
+    show(panel: eui.Component, closeOther: boolean = true) {
+        if (closeOther) {
+            this.removeChildren();
+        }
         panel.verticalCenter = 0;
         panel.horizontalCenter = 0;
         this.addChild(panel);

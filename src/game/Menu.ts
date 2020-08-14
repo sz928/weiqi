@@ -25,7 +25,7 @@ class Menu extends eui.Component {
         this.lab.textDisplay.textAlign = egret.HorizontalAlign.CENTER;
 
         this.start.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
-        
+
     }
 
     private onTap(): void {
@@ -45,6 +45,8 @@ class Menu extends eui.Component {
         }
         PlayerInfo.instance.roomId = parseInt(this.lab.text);
         PlayerInfo.instance.meColreBlack = data.meColreBlack;
-        UIManager.instance.show(GameController.instance.init(data.pieceArr));
+        let { chess, result } = GameController.instance.init(data.pieceArr);
+        UIManager.instance.show(chess);
+        UIManager.instance.show(result, false);
     }
 }
