@@ -1,3 +1,8 @@
+//心跳
+interface heartbeat {
+    name:string
+}
+
 /**登录请求 */
 interface loginReq {
     /**房间ID */
@@ -50,5 +55,6 @@ enum MsgId {
     roomSync,
     playChess,
     resultPush,
-    newGameReq
+    newGameReq,
+    heartbeat
 }
