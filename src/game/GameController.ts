@@ -88,6 +88,7 @@ class GameController {
     }
 
     private onPlayChessRes(data: playChessRes) {
+        if (data.code != 0) return
         let point = new egret.Point(data.piece.x, data.piece.y);
         let piece: Piece = PiecePool.instance.getOnePiece();
         piece.updateData(data.piece.isBlack, point);

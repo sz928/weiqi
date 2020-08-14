@@ -30,7 +30,8 @@ class Socket {
     }
 
     private connect(): void {
-        if (!this.isConnect) this.ws.connect("localhost", 8080);
+        let url = '121.199.51.226';//localhost
+        if (!this.isConnect) this.ws.connect(url, 8080);
     }
 
     private onSocketOpen(): void {
@@ -41,8 +42,9 @@ class Socket {
     sendMsg(_data: any, _msgId: MsgId, _func: Function, _thisObj: Object) {
         this.connect();
         let msg = MsgId[_msgId];
-
-        this.funcHandler.set(msg, { func: _func, obj: _thisObj })
+        if (!this.funcHandler.has(msg)) {
+            this.funcHandler.set(msg, { func: _func, obj: _thisObj })
+        }
 
         let data = JSON.stringify(_data);
         this.ws.writeUTF(msg + '+' + data);
