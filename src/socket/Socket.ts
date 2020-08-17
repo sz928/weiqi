@@ -47,6 +47,11 @@ class Socket {
     }
 
     private sendHeart(): void {
+        if (this.heartbeatId != null) {
+            egret.clearInterval(this.heartbeatId);
+            this.heartbeatId = null;
+        }
+
         let req: heartbeat = {
             name: 'ping'
         }
@@ -56,10 +61,6 @@ class Socket {
     }
 
     private onHraet(): void {
-        if (this.heartbeatId != null) {
-            egret.clearInterval(this.heartbeatId);
-            this.heartbeatId = null;
-        }
         this.heartbeatId = egret.setInterval(() => {
             this.sendHeart()
         }, this, this.heartbeatInterval);
